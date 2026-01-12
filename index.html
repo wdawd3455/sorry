@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For Vaishnavi</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        /* Smooth scrolling for when the lock is lifted */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Times New Roman', serif;
+            /* Locked initially */
+            overflow: hidden; 
+            height: 100%;
+            width: 100%;
+        }
+
+        /* Dark pulsating background */
+        .bg-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, #1a0000 0%, #000 100%);
+            z-index: -1;
+        }
+
+        #main-wrapper {
+            height: 100vh;
+            overflow-y: auto;
+            scroll-snap-type: y mandatory;
+        }
+
+        section {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            text-align: center;
+            scroll-snap-align: start;
+            position: relative;
+        }
+
+        /* Super Smooth Fade-In Animation */
+        .content-block {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 2s ease-out;
+        }
+
+        .active .content-block {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #ff3333;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(255,0,0,0.4);
+        }
+
+        p {
+            font-size: 1.5rem;
+            line-height: 1.8;
+            color: #e0e0e0;
+            font-style: italic;
+        }
+
+        .sorry-text {
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            opacity: 0.3;
+            color: #ff0000;
+        }
+
+        .heart-icon {
+            font-size: 60px;
+            margin-top: 20px;
+            filter: drop-shadow(0 0 10px red);
+            animation: beat 1.5s infinite;
+        }
+
+        @keyframes beat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body id="body-lock">
+
+    <div class="bg-overlay"></div>
+
+    <div id="main-wrapper">
+        <section id="s0">
+            <div class="content-block">
+                <h1>Vaishnavi</h1>
+                <p>I made a mistake... <br>one I never ever wanted to make.</p>
+            </div>
+        </section>
+
+        <section id="s1">
+            <div class="content-block">
+                <p>It was a horrible mistake.<br>I feel so bad inside, it hurts so much.</p>
+            </div>
+        </section>
+
+        <section id="s2">
+            <div class="content-block">
+                <p class="sorry-text">SORRY SORRY SORRY SORRY SORRY SORRY SORRY SORRY SORRY SORRY</p>
+                <h1>I AM SORRY</h1>
+                <p class="sorry-text">SORRY SORRY SORRY SORRY SORRY SORRY SORRY SORRY SORRY SORRY</p>
+            </div>
+        </section>
+
+        <section id="s3">
+            <div class="content-block">
+                <p>I am soryyyy.<br>I am soryyyy.<br>I am so incredibly sorry Vaishnavi.</p>
+            </div>
+        </section>
+
+        <section id="s4">
+            <div class="content-block">
+                <p>I love you.<br>I don't know if you will forgive me...</p>
+            </div>
+        </section>
+
+        <section id="s5">
+            <div class="content-block">
+                <h1>Please forgive me</h1>
+                <p>I'll do anything to make it right.<br>I love you forever.</p>
+                <div class="heart-icon">💔</div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const wrapper = document.getElementById('main-wrapper');
+        const sections = document.querySelectorAll('section');
+        const total = sections.length;
+        let current = 0;
+
+        // Start first section animation immediately
+        sections[0].classList.add('active');
+
+        const autoScroll = setInterval(() => {
+            current++;
+            
+            if (current < total) {
+                // Scroll to the next section
+                sections[current].scrollIntoView({ behavior: 'smooth' });
+                
+                // Trigger animation
+                setTimeout(() => {
+                    sections[current].classList.add('active');
+                }, 500);
+            } else {
+                // UNLOCK: Allow user to scroll once finished
+                document.getElementById('body-lock').style.overflow = "auto";
+                clearInterval(autoScroll);
+            }
+        }, 6000); // 6 Seconds per sentence
+
+        // Prevent manual scrolling while locked
+        window.addEventListener('wheel', (e) => {
+            if (current < total - 1) e.preventDefault();
+        }, { passive: false });
+
+        window.addEventListener('touchmove', (e) => {
+            if (current < total - 1) e.preventDefault();
+        }, { passive: false });
+    </script>
+</body>
+</html>
